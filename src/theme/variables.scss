@@ -1,2 +1,23 @@
 // For information on how to create your own theme, please refer to:
 // https://ionicframework.com/docs/theming/
+:root {
+  /* Couleur principale : orange */
+  --ion-color-primary: orange;
+  --ion-color-primary-contrast: white;
+}
+
+body {
+  /* Fond noir */
+  --ion-background-color: black;
+
+  // Texte blanc
+  --ion-text-color: white;
+
+  // Fond des cards en gris
+  --ion-card-background: #1c1c1c;
+
+  // Tab bar en bas
+  --ion-tab-bar-background: black;
+  --ion-tab-bar-color: grey;
+  --ion-tab-bar-color-selected: orange;
+}

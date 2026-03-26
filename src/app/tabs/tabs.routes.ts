@@ -6,31 +6,52 @@ export const routes: Routes = [
     path: 'tabs',
     component: TabsPage,
     children: [
+
+      // Onglet Séries
       {
-        path: 'tab1',
+        path: 'series-liste',
         loadComponent: () =>
-          import('../tab1/tab1.page').then((m) => m.Tab1Page),
+          import('../ecrans/series/series-liste/series-liste.page')
+            .then(m => m.SeriesListePage)
       },
+
+      // Onglet Films
       {
-        path: 'tab2',
+        path: 'films-liste',
         loadComponent: () =>
-          import('../tab2/tab2.page').then((m) => m.Tab2Page),
+          import('../ecrans/films/films-liste/films-liste.page')
+            .then(m => m.FilmsListePage)
       },
+
+      // Onglet Explorer (recherche)
       {
-        path: 'tab3',
+        path: 'recherche',
         loadComponent: () =>
-          import('../tab3/tab3.page').then((m) => m.Tab3Page),
+          import('../ecrans/recherche/recherche.page')
+            .then(m => m.RecherchePage)
       },
+
+      // Onglet Profil (accueil)
+      {
+        path: 'accueil',
+        loadComponent: () =>
+          import('../ecrans/accueil/accueil.page')
+            .then(m => m.AccueilPage)
+      },
+
+      // Par défaut : rediriger vers Séries
       {
         path: '',
-        redirectTo: '/tabs/tab1',
-        pathMatch: 'full',
-      },
-    ],
+        redirectTo: 'series-liste',
+        pathMatch: 'full'
+      }
+
+    ]
   },
+  // Redirection depuis la racine
   {
     path: '',
-    redirectTo: '/tabs/tab1',
-    pathMatch: 'full',
-  },
+    redirectTo: '/tabs/series-liste',
+    pathMatch: 'full'
+  }
 ];
