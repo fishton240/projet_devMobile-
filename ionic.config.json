@@ -1,0 +1,7 @@
+{
+  "name": "projet_devMobile",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}
