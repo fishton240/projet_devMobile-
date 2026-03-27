@@ -1,0 +1,211 @@
+:host {
+  position: absolute;
+  inset: 0;
+  display: flex !important;
+  flex-direction: column;
+  overflow: hidden;
+  pointer-events: auto !important;
+  z-index: 0;
+}
+
+:host.ion-page-hidden {
+  display: none !important;
+  pointer-events: none !important;
+}
+
+.profil-content {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  background: var(--ion-background-color, black);
+  scrollbar-width: none;
+  &::-webkit-scrollbar { display: none; }
+}
+
+// ── Avatar ──────────────────────────────────────────────
+.avatar-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px 16px 28px;
+  gap: 16px;
+}
+
+.avatar-wrapper {
+  position: relative;
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  cursor: pointer;
+  overflow: hidden;
+  border: 2px solid #2a2a2a;
+}
+
+.avatar-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.avatar-placeholder {
+  width: 100%;
+  height: 100%;
+  background: #1a1a1a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.avatar-initiale {
+  font-size: 38px;
+  font-weight: 700;
+  color: orange;
+}
+
+.avatar-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 30px;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  ion-icon {
+    font-size: 15px;
+    color: #ccc;
+  }
+}
+
+// ── Pseudo ───────────────────────────────────────────────
+.pseudo-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.pseudo {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 600;
+  color: white;
+  letter-spacing: -0.3px;
+}
+
+.edit-btn {
+  background: #1e1e1e;
+  border: 1px solid #333;
+  border-radius: 6px;
+  color: #aaa;
+  font-size: 12px;
+  padding: 4px 10px;
+  cursor: pointer;
+
+  &:active { background: #2a2a2a; }
+}
+
+.pseudo-edit-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.pseudo-input {
+  background: #1a1a1a;
+  border: 1.5px solid orange;
+  border-radius: 8px;
+  color: white;
+  font-size: 16px;
+  padding: 7px 12px;
+  outline: none;
+  width: 180px;
+}
+
+.valider-btn {
+  background: orange;
+  border: none;
+  border-radius: 8px;
+  color: black;
+  font-size: 14px;
+  font-weight: 700;
+  padding: 8px 14px;
+  cursor: pointer;
+
+  &:active { opacity: 0.8; }
+}
+
+// ── Stats ────────────────────────────────────────────────
+.stats-section {
+  padding: 0 16px 28px;
+}
+
+.stats-titre {
+  margin: 0 0 12px;
+  font-size: 11px;
+  color: #555;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.stats-total {
+  font-size: 11px;
+  color: #3a3a3a;
+  font-weight: 400;
+  background: #1a1a1a;
+  border: 1px solid #2a2a2a;
+  border-radius: 10px;
+  padding: 1px 8px;
+}
+
+.stats-grid {
+  display: flex;
+  gap: 8px;
+}
+
+.stat-card {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 18px 8px;
+  border-radius: 12px;
+  background: #0f0f0f;
+  border: 1px solid #1e1e1e;
+}
+
+.stat-nombre {
+  font-size: 30px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.stat-label {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  font-weight: 500;
+}
+
+.stat-vu {
+  .stat-nombre, .stat-label { color: #4CAF50; }
+  border-color: rgba(76, 175, 80, 0.2);
+}
+
+.stat-en-cours {
+  .stat-nombre, .stat-label { color: orange; }
+  border-color: rgba(255, 165, 0, 0.2);
+}
+
+.stat-a-voir {
+  .stat-nombre, .stat-label { color: #2196F3; }
+  border-color: rgba(33, 150, 243, 0.2);
+}

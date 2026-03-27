@@ -1,13 +1,62 @@
-<ion-header [translucent]="true">
+<ion-header>
   <ion-toolbar>
-    <ion-title>films-detail</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/films-liste"></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{ film?.titre }}</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">films-detail</ion-title>
-    </ion-toolbar>
-  </ion-header>
-</ion-content>
+<div class="detail-content">
+
+  @if (film) {
+
+    <!-- Affiche hero -->
+    <div class="hero">
+      <img [src]="film.affiche" [alt]="film.titre" class="hero-img" (error)="onImageError($event)" />
+      <div class="hero-gradient"></div>
+    </div>
+
+    <!-- Infos principales -->
+    <div class="infos">
+      <h1 class="titre">{{ film.titre }}</h1>
+      <p class="annee">{{ film.annee }}</p>
+      <p class="description">{{ film.description }}</p>
+    </div>
+
+    <!-- Changement de statut -->
+    <div class="statut-section">
+      <p class="statut-label">Mon statut</p>
+      <div class="statut-buttons">
+
+        <button class="statut-btn statut-vu"
+          [class.active]="film.statut === 'vu'"
+          (click)="changerStatut('vu')">
+          <ion-icon name="checkmark-circle-outline"></ion-icon>
+          Vu
+        </button>
+
+        <button class="statut-btn statut-en-cours"
+          [class.active]="film.statut === 'en_cours'"
+          (click)="changerStatut('en_cours')">
+          <ion-icon name="play-circle-outline"></ion-icon>
+          En cours
+        </button>
+
+        <button class="statut-btn statut-a-voir"
+          [class.active]="film.statut === 'a_voir'"
+          (click)="changerStatut('a_voir')">
+          <ion-icon name="bookmark-outline"></ion-icon>
+          À voir
+        </button>
+
+      </div>
+    </div>
+
+  }
+
+  @if (!film) {
+    <div class="not-found">Film introuvable</div>
+  }
+
+</div>

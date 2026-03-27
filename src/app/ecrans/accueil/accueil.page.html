@@ -1,13 +1,75 @@
-<ion-header [translucent]="true">
+<ion-header>
   <ion-toolbar>
-    <ion-title>accueil</ion-title>
+    <ion-title>Profil</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">accueil</ion-title>
-    </ion-toolbar>
-  </ion-header>
-</ion-content>
+<div class="profil-content">
+
+  <!-- Avatar + pseudo -->
+  <div class="avatar-section">
+    <div class="avatar-wrapper">
+      @if (photo) {
+        <img [src]="photo" alt="Photo de profil" class="avatar-img" />
+      } @else {
+        <div class="avatar-placeholder">
+          <span class="avatar-initiale">{{ pseudo[0].toUpperCase() }}</span>
+        </div>
+      }
+      <div class="avatar-overlay">
+        <ion-icon name="camera-outline"></ion-icon>
+      </div>
+    </div>
+
+    @if (!modeEditionPseudo) {
+      <div class="pseudo-row">
+        <p class="pseudo">{{ pseudo }}</p>
+        <button class="edit-btn" (click)="editerPseudo()">Modifier</button>
+      </div>
+    } @else {
+      <div class="pseudo-edit-row">
+        <input class="pseudo-input" [(ngModel)]="pseudoTemp" (keyup.enter)="validerPseudo()" autofocus maxlength="30" />
+        <button class="valider-btn" (click)="validerPseudo()">OK</button>
+      </div>
+    }
+  </div>
+
+  <!-- Stats films -->
+  <div class="stats-section">
+    <h2 class="stats-titre">Films <span class="stats-total">{{ totalFilms }}</span></h2>
+    <div class="stats-grid">
+      <div class="stat-card stat-vu">
+        <span class="stat-nombre">{{ nbFilmsVus }}</span>
+        <span class="stat-label">Vus</span>
+      </div>
+      <div class="stat-card stat-en-cours">
+        <span class="stat-nombre">{{ nbFilmsEnCours }}</span>
+        <span class="stat-label">En cours</span>
+      </div>
+      <div class="stat-card stat-a-voir">
+        <span class="stat-nombre">{{ nbFilmsAVoir }}</span>
+        <span class="stat-label">À voir</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Stats séries -->
+  <div class="stats-section">
+    <h2 class="stats-titre">Séries <span class="stats-total">{{ totalSeries }}</span></h2>
+    <div class="stats-grid">
+      <div class="stat-card stat-vu">
+        <span class="stat-nombre">{{ nbSeriesVues }}</span>
+        <span class="stat-label">Vues</span>
+      </div>
+      <div class="stat-card stat-en-cours">
+        <span class="stat-nombre">{{ nbSeriesEnCours }}</span>
+        <span class="stat-label">En cours</span>
+      </div>
+      <div class="stat-card stat-a-voir">
+        <span class="stat-nombre">{{ nbSeriesAVoir }}</span>
+        <span class="stat-label">À voir</span>
+      </div>
+    </div>
+  </div>
+
+</div>

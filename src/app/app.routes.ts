@@ -22,11 +22,15 @@ export const routes: Routes = [
     loadComponent: () => import('./ecrans/films/films-liste/films-liste.page').then( m => m.FilmsListePage)
   },
   {
-    path: 'films-detail',
+    path: 'films-detail/:id',
     loadComponent: () => import('./ecrans/films/films-detail/films-detail.page').then( m => m.FilmsDetailPage)
   },
   {
     path: 'recherche',
     loadComponent: () => import('./ecrans/recherche/recherche.page').then( m => m.RecherchePage)
+  },  {
+    path: 'recherche-detail/:imdbId/:type',
+    loadComponent: () => import('./ecrans/recherche-detail/recherche-detail.page').then( m => m.RechercheDetailPage)
   },
+
 ];

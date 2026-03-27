@@ -1,0 +1,69 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/recherche"></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{ data?.Title ?? '...' }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<div class="detail-content">
+
+  @if (chargement) {
+    <div class="chargement">
+      <ion-spinner name="crescent" color="primary"></ion-spinner>
+    </div>
+  }
+
+  @if (!chargement && data) {
+
+    <div class="hero">
+      <img [src]="data.Poster !== 'N/A' ? data.Poster : 'assets/poster-placeholder.svg'"
+           [alt]="data.Title" class="hero-img" (error)="onImageError($event)" />
+      <div class="hero-gradient"></div>
+    </div>
+
+    <div class="infos">
+      <h1 class="titre">{{ data.Title }}</h1>
+      <div class="meta">
+        <span>{{ data.Year }}</span>
+        @if (data.Runtime && data.Runtime !== 'N/A') {
+          <span class="sep">·</span><span>{{ data.Runtime }}</span>
+        }
+        @if (data.Genre && data.Genre !== 'N/A') {
+          <span class="sep">·</span><span>{{ data.Genre }}</span>
+        }
+      </div>
+      @if (data.imdbRating && data.imdbRating !== 'N/A') {
+        <div class="note">
+          <ion-icon name="star"></ion-icon>
+          <span>{{ data.imdbRating }}<small> / 10</small></span>
+        </div>
+      }
+      <p class="description">{{ data.Plot }}</p>
+    </div>
+
+    <div class="ajout-section">
+
+      @if (!dejaAjoute) {
+        <p class="ajout-label">Statut</p>
+        <div class="statut-buttons">
+          <button class="statut-btn statut-vu"       [class.active]="statutChoisi === 'vu'"       (click)="choisirStatut('vu')">Vu</button>
+          <button class="statut-btn statut-en-cours" [class.active]="statutChoisi === 'en_cours'" (click)="choisirStatut('en_cours')">En cours</button>
+          <button class="statut-btn statut-a-voir"   [class.active]="statutChoisi === 'a_voir'"   (click)="choisirStatut('a_voir')">À voir</button>
+        </div>
+        <button class="btn-ajouter" (click)="ajouter()">Ajouter à ma liste</button>
+      }
+
+      @if (dejaAjoute) {
+        <div class="deja-ajoute">
+          <ion-icon name="checkmark-circle"></ion-icon>
+          <span>Déjà dans ta liste</span>
+        </div>
+      }
+
+    </div>
+
+  }
+
+</div>

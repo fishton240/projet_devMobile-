@@ -1,0 +1,162 @@
+:host {
+  position: absolute;
+  inset: 0;
+  display: flex !important;
+  flex-direction: column;
+  overflow: hidden;
+  pointer-events: auto !important;
+  z-index: 0;
+}
+
+:host.ion-page-hidden {
+  display: none !important;
+  pointer-events: none !important;
+}
+
+.recherche-content {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  background: var(--ion-background-color, black);
+  padding: 16px;
+  scrollbar-width: none;
+  &::-webkit-scrollbar { display: none; }
+}
+
+// ── Toggle ───────────────────────────────────────────────
+.type-toggle {
+  display: flex;
+  background: #0f0f0f;
+  border: 1px solid #1e1e1e;
+  border-radius: 10px;
+  padding: 3px;
+  margin-bottom: 14px;
+}
+
+.toggle-btn {
+  flex: 1;
+  padding: 9px;
+  border-radius: 7px;
+  border: none;
+  background: transparent;
+  color: #666;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.18s ease;
+
+  &.active {
+    background: #1e1e1e;
+    color: white;
+  }
+}
+
+// ── Barre de recherche ───────────────────────────────────
+.search-bar {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.search-input {
+  flex: 1;
+  background: #0f0f0f;
+  border: 1px solid #1e1e1e;
+  border-radius: 10px;
+  color: white;
+  font-size: 15px;
+  padding: 11px 14px;
+  outline: none;
+
+  &:focus { border-color: #333; }
+  &::placeholder { color: #444; }
+}
+
+.btn-rechercher {
+  background: orange;
+  border: none;
+  border-radius: 10px;
+  padding: 11px 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  ion-icon {
+    font-size: 18px;
+    color: black;
+  }
+
+  &:active { opacity: 0.85; }
+}
+
+// ── Chargement / erreur ──────────────────────────────────
+.chargement {
+  display: flex;
+  justify-content: center;
+  padding: 32px 0;
+}
+
+.message-erreur {
+  text-align: center;
+  color: #555;
+  font-size: 14px;
+  padding: 32px 0;
+}
+
+// ── Résultats ────────────────────────────────────────────
+.resultats-liste {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.resultat-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: #0f0f0f;
+  border-radius: 10px;
+  padding: 10px;
+  border: 1px solid #1a1a1a;
+  cursor: pointer;
+
+  &:active { background: #161616; }
+}
+
+.resultat-poster {
+  width: 44px;
+  height: 62px;
+  object-fit: cover;
+  border-radius: 6px;
+  flex-shrink: 0;
+  background: #111;
+}
+
+.resultat-infos {
+  flex: 1;
+  overflow: hidden;
+}
+
+.resultat-titre {
+  margin: 0 0 3px;
+  font-size: 14px;
+  font-weight: 600;
+  color: white;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.resultat-annee {
+  margin: 0;
+  font-size: 12px;
+  color: #555;
+}
+
+.resultat-chevron {
+  flex-shrink: 0;
+  font-size: 16px;
+  color: #333;
+}

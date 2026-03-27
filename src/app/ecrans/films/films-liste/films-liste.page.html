@@ -1,13 +1,47 @@
-<ion-header [translucent]="true">
+<ion-header>
   <ion-toolbar>
-    <ion-title>films-liste</ion-title>
+    <ion-title>Films</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">films-liste</ion-title>
-    </ion-toolbar>
-  </ion-header>
-</ion-content>
+<div class="films-content" #filmsContent>
+
+  <!-- Filtres -->
+  <div class="filtres">
+    <button class="filtre-btn filtre-tous"     [class.active]="filtreActif === 'tous'">Tous</button>
+    <button class="filtre-btn filtre-en-cours" [class.active]="filtreActif === 'en_cours'">En cours</button>
+    <button class="filtre-btn filtre-a-voir"   [class.active]="filtreActif === 'a_voir'">À voir</button>
+    <button class="filtre-btn filtre-vu"       [class.active]="filtreActif === 'vu'">Vus</button>
+  </div>
+
+  @if (catalogue.chargementFilms) {
+    <div class="chargement">
+      <ion-spinner name="crescent" color="primary"></ion-spinner>
+      <p>Chargement des films...</p>
+    </div>
+  }
+
+  @if (!catalogue.chargementFilms) {
+    <div class="films-grid">
+      @for (film of filmsFiltres; track film.id) {
+        <ion-card class="film-card" [attr.data-id]="film.id">
+          <div class="poster-container">
+            <img [src]="film.affiche" [alt]="film.titre" class="poster" (error)="onImageError($event)" />
+            <ion-badge class="statut-badge" [color]="couleurStatut(film.statut)">
+              {{ labelStatut(film.statut) }}
+            </ion-badge>
+          </div>
+          <ion-card-content class="film-info">
+            <p class="film-titre">{{ film.titre }}</p>
+            <p class="film-annee">{{ film.annee }}</p>
+          </ion-card-content>
+        </ion-card>
+      }
+    </div>
+
+    @if (filmsFiltres.length === 0) {
+      <div class="vide">Aucun film dans cette catégorie</div>
+    }
+  }
+
+</div>

@@ -1,13 +1,59 @@
-<ion-header [translucent]="true">
+<ion-header>
   <ion-toolbar>
-    <ion-title>recherche</ion-title>
+    <ion-title>Explorer</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">recherche</ion-title>
-    </ion-toolbar>
-  </ion-header>
-</ion-content>
+<div class="recherche-content">
+
+  <!-- Toggle film / série -->
+  <div class="type-toggle">
+    <button class="toggle-btn toggle-film" [class.active]="typeRecherche === 'movie'">Films</button>
+    <button class="toggle-btn toggle-serie" [class.active]="typeRecherche === 'series'">Séries</button>
+  </div>
+
+  <!-- Barre de recherche -->
+  <div class="search-bar">
+    <input
+      class="search-input"
+      type="text"
+      [(ngModel)]="rechercheTitre"
+      placeholder="Rechercher un titre..."
+      (keyup.enter)="lancerRecherche()"
+    />
+    <button class="btn-rechercher">
+      <ion-icon name="search-outline"></ion-icon>
+    </button>
+  </div>
+
+  <!-- Chargement -->
+  @if (chargement) {
+    <div class="chargement">
+      <ion-spinner name="crescent" color="primary"></ion-spinner>
+    </div>
+  }
+
+  <!-- Erreur -->
+  @if (messageErreur) {
+    <p class="message-erreur">{{ messageErreur }}</p>
+  }
+
+  <!-- Résultats -->
+  <div class="resultats-liste">
+    @for (item of resultats; track item.imdbID) {
+      <div class="resultat-card">
+        <img
+          class="resultat-poster"
+          [src]="item.Poster !== 'N/A' ? item.Poster : 'assets/poster-placeholder.svg'"
+          [alt]="item.Title"
+        />
+        <div class="resultat-infos">
+          <p class="resultat-titre">{{ item.Title }}</p>
+          <p class="resultat-annee">{{ item.Year }}</p>
+        </div>
+        <ion-icon name="chevron-forward-outline" class="resultat-chevron"></ion-icon>
+      </div>
+    }
+  </div>
+
+</div>
