@@ -60,7 +60,7 @@ export class RecherchePage implements AfterViewInit, OnDestroy {
       const index = toutesLesCartes.indexOf(carte);
       if (index >= 0 && this.resultats[index]) {
         const item = this.resultats[index];
-        this.router.navigate(['/recherche-detail', item.imdbID, this.typeRecherche]);
+        this.router.navigate(['/recherche-detail', item.imdbID, item.Type]);
       }
     }
   };
