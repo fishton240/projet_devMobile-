@@ -1,13 +1,97 @@
-<ion-header [translucent]="true">
+<ion-header>
   <ion-toolbar>
-    <ion-title>series-detail</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/series-liste"></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{ serie?.titre }}</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">series-detail</ion-title>
-    </ion-toolbar>
-  </ion-header>
-</ion-content>
+<div class="detail-content">
+
+  @if (serie) {
+
+    <!-- Affiche hero -->
+    <div class="hero">
+      <img [src]="serie.affiche" [alt]="serie.titre" class="hero-img" (error)="onImageError($event)" />
+      <div class="hero-gradient"></div>
+    </div>
+
+    <!-- Infos principales -->
+    <div class="infos">
+      <h1 class="titre">{{ serie.titre }}</h1>
+      <p class="annee">{{ serie.annee }}</p>
+      <p class="description">{{ serie.description }}</p>
+
+      <!-- Infos spécifiques séries -->
+      <div class="series-details">
+        <div class="detail-item">
+          <span class="detail-label">Saisons</span>
+          <span class="detail-value">{{ serie.saisons }}</span>
+        </div>
+        @if (serie.episodesTotal) {
+          <div class="detail-item">
+            <span class="detail-label">Épisodes</span>
+            <span class="detail-value">{{ serie.episodesTotal }}</span>
+          </div>
+        }
+        @if (serie.statut === 'en_cours') {
+          <div class="detail-item">
+            <span class="detail-label">Progression</span>
+            <span class="detail-value">{{ serie.episodeTexte }}</span>
+          </div>
+        }
+      </div>
+    </div>
+
+    <!-- Changement de statut -->
+    <div class="statut-section">
+      <p class="statut-label">Mon statut</p>
+      <div class="statut-buttons">
+
+        <button class="statut-btn statut-vu"
+                [class.active]="serie.statut === 'vu'"
+                (click)="changerStatut('vu')">
+          <ion-icon name="checkmark-circle-outline"></ion-icon>
+          Vu
+        </button>
+
+        <button class="statut-btn statut-en-cours"
+                [class.active]="serie.statut === 'en_cours'"
+                (click)="changerStatut('en_cours')">
+          <ion-icon name="play-circle-outline"></ion-icon>
+          En cours
+        </button>
+
+        <button class="statut-btn statut-a-voir"
+                [class.active]="serie.statut === 'a_voir'"
+                (click)="changerStatut('a_voir')">
+          <ion-icon name="bookmark-outline"></ion-icon>
+          À voir
+        </button>
+
+      </div>
+    </div>
+
+    <!-- Bouton Retirer -->
+    <div class="action-section">
+      <button class="btn-retirer" (click)="supprimer()">
+        <ion-icon name="trash-outline"></ion-icon>
+        Retirer de ma liste
+      </button>
+    </div>
+
+    <!-- Message de confirmation -->
+    @if (messageConfirmation) {
+      <div class="message-confirmation">
+        <ion-icon name="checkmark-circle-outline"></ion-icon>
+        <span>{{ messageConfirmation }}</span>
+      </div>
+    }
+  }
+
+  @if (!serie) {
+    <div class="not-found">Série introuvable</div>
+  }
+
+</div>

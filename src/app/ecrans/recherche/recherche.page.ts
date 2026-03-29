@@ -40,13 +40,13 @@ export class RecherchePage implements AfterViewInit, OnDestroy {
       this.lancerRecherche(); return;
     }
 
-    // Clic sur l'input → focus
+    // Clic sur l'input -> focus
     if (elements.some(el => el.classList?.contains('search-input'))) {
       (document.querySelector('.search-input') as HTMLInputElement)?.focus();
       return;
     }
 
-    // Clic sur une carte résultat → naviguer vers le détail
+    // Clic sur une carte résultat -> naviguer vers le détail
     const carteEl = elements.find(el =>
       el.classList?.contains('resultat-card') ||
       el.classList?.contains('resultat-poster') ||
@@ -87,10 +87,27 @@ export class RecherchePage implements AfterViewInit, OnDestroy {
     this.catalogue.rechercher(titre, this.typeRecherche).subscribe({
       next: (data: any) => {
         this.chargement = false;
-        if (data.Response === 'True') {
-          this.resultats = data.Search;
+
+        if (this.typeRecherche === 'movie') {
+          // Films OMDb
+          if (data.Response === 'True') {
+            this.resultats = data.Search;
+          } else {
+            this.messageErreur = 'Aucun film trouvé.';
+          }
         } else {
-          this.messageErreur = 'Aucun résultat trouvé.';
+          // Séries TVMaze
+          if (data && data.length > 0) {
+            this.resultats = data.map((item: any) => ({
+              imdbID: item.show.id.toString(),  // ID TVMaze
+              Title: item.show.name,
+              Year: item.show.premiered?.substring(0, 4) || 'N/A',
+              Poster: item.show.image?.medium || 'N/A',
+              Type: 'series'
+            }));
+          } else {
+            this.messageErreur = 'Aucune série trouvée.';
+          }
         }
       },
       error: () => {

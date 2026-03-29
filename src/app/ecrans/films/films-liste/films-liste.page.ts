@@ -5,8 +5,10 @@ import { Router } from '@angular/router';
 import {
   IonHeader, IonTitle, IonToolbar,
   IonCard, IonCardContent,
-  IonBadge, IonSpinner
+  IonBadge, IonSpinner, IonIcon
 } from '@ionic/angular/standalone';
+import { addIcons } from 'ionicons';
+import { checkmarkCircleOutline } from 'ionicons/icons';
 import { CatalogueService } from '../../../commun/catalogue';
 import { UnFilm } from '../../../commun/un-film';
 
@@ -19,7 +21,7 @@ import { UnFilm } from '../../../commun/un-film';
     CommonModule, FormsModule,
     IonHeader, IonTitle, IonToolbar,
     IonCard, IonCardContent,
-    IonBadge, IonSpinner
+    IonBadge, IonSpinner, IonIcon
   ]
 })
 export class FilmsListePage implements AfterViewInit, OnDestroy {
@@ -37,31 +39,47 @@ export class FilmsListePage implements AfterViewInit, OnDestroy {
     }
   };
 
-  // Clics : même overlay bloque les clics, on cherche la carte sous le curseur
   private readonly handleClick = (e: MouseEvent) => {
     const elements = document.elementsFromPoint(e.clientX, e.clientY);
 
     // Filtres
-    if (elements.some(el => el.classList?.contains('filtre-tous')))     { this.filtreActif = 'tous'; return; }
-    if (elements.some(el => el.classList?.contains('filtre-en-cours'))) { this.filtreActif = 'en_cours'; return; }
-    if (elements.some(el => el.classList?.contains('filtre-a-voir')))   { this.filtreActif = 'a_voir'; return; }
-    if (elements.some(el => el.classList?.contains('filtre-vu')))       { this.filtreActif = 'vu'; return; }
+    if (elements.some(el => el.classList?.contains('filtre-tous'))) {
+      this.filtreActif = 'tous';
+      return;
+    }
+    if (elements.some(el => el.classList?.contains('filtre-en-cours'))) {
+      this.filtreActif = 'en_cours';
+      return;
+    }
+    if (elements.some(el => el.classList?.contains('filtre-a-voir'))) {
+      this.filtreActif = 'a_voir';
+      return;
+    }
+    if (elements.some(el => el.classList?.contains('filtre-vu'))) {
+      this.filtreActif = 'vu';
+      return;
+    }
 
-    // Clic sur une carte film
+    // Clic sur la partie cliquable pour aller au détail
     for (const el of elements) {
-      if (el.hasAttribute('data-id')) {
-        const id = el.getAttribute('data-id');
-        if (id) this.router.navigate(['/films-detail', +id]);
+      const clickable = el.closest('.film-clickable');
+      if (clickable) {
+        const id = clickable.getAttribute('data-id');
+        if (id) {
+          this.router.navigate(['/films-detail', id]);
+        }
         break;
       }
     }
   };
 
-  constructor(public catalogue: CatalogueService, private router: Router) {}
+  constructor(public catalogue: CatalogueService, private router: Router) {
+    addIcons({ checkmarkCircleOutline });
+  }
 
   ngAfterViewInit() {
     document.addEventListener('wheel', this.handleWheel, { passive: false });
-    document.addEventListener('click', this.handleClick, true); // capture phase
+    document.addEventListener('click', this.handleClick, true);
   }
 
   ngOnDestroy() {
@@ -69,26 +87,44 @@ export class FilmsListePage implements AfterViewInit, OnDestroy {
     document.removeEventListener('click', this.handleClick, true);
   }
 
+  get filmsEnCours(): UnFilm[] {
+    return this.catalogue.listeFilms.filter(f => f.statut === 'en_cours');
+  }
+
+  get filmsAVoir(): UnFilm[] {
+    return this.catalogue.listeFilms.filter(f => f.statut === 'a_voir');
+  }
+
+  get filmsVus(): UnFilm[] {
+    return this.catalogue.listeFilms.filter(f => f.statut === 'vu');
+  }
+
+  get tousLesFilms(): UnFilm[] {
+    return this.catalogue.listeFilms;
+  }
+
   get filmsFiltres(): UnFilm[] {
-    if (this.filtreActif === 'tous') return this.catalogue.listeFilms;
+    if (this.filtreActif === 'tous') {
+      return this.tousLesFilms;
+    }
     return this.catalogue.listeFilms.filter(f => f.statut === this.filtreActif);
   }
 
   couleurStatut(statut: string): string {
     switch (statut) {
-      case 'vu':       return 'success';
+      case 'vu': return 'success';
       case 'en_cours': return 'warning';
-      case 'a_voir':   return 'primary';
-      default:         return 'primary';
+      case 'a_voir': return 'primary';
+      default: return 'primary';
     }
   }
 
   labelStatut(statut: string): string {
     switch (statut) {
-      case 'vu':       return 'Vu';
+      case 'vu': return 'Vu';
       case 'en_cours': return 'En cours';
-      case 'a_voir':   return 'À voir';
-      default:         return statut;
+      case 'a_voir': return 'À voir';
+      default: return statut;
     }
   }
 

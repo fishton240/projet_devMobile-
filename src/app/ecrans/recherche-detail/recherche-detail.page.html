@@ -17,15 +17,22 @@
 
   @if (!chargement && data) {
 
+    <!-- Affiche hero -->
     <div class="hero">
-      <img [src]="data.Poster !== 'N/A' ? data.Poster : 'assets/poster-placeholder.svg'"
-           [alt]="data.Title" class="hero-img" (error)="onImageError($event)" />
+      @if (data.Poster && data.Poster !== 'N/A') {
+        <img [src]="data.Poster" [alt]="data.Title" class="hero-img" (error)="onImageError($event)" />
+      } @else {
+        <div class="hero-placeholder">
+          <ion-icon name="film-outline"></ion-icon>
+        </div>
+      }
       <div class="hero-gradient"></div>
     </div>
 
+    <!-- Infos principales -->
     <div class="infos">
       <h1 class="titre">{{ data.Title }}</h1>
-      <div class="meta">
+      <div class="metadatas">
         <span>{{ data.Year }}</span>
         @if (data.Runtime && data.Runtime !== 'N/A') {
           <span class="sep">·</span><span>{{ data.Runtime }}</span>
@@ -34,36 +41,77 @@
           <span class="sep">·</span><span>{{ data.Genre }}</span>
         }
       </div>
+
       @if (data.imdbRating && data.imdbRating !== 'N/A') {
-        <div class="note">
+        <div class="rating">
           <ion-icon name="star"></ion-icon>
           <span>{{ data.imdbRating }}<small> / 10</small></span>
         </div>
       }
+
       <p class="description">{{ data.Plot }}</p>
+
+      @if (type === 'series' && data.totalSeasons) {
+        <div class="series-info">
+          <ion-icon name="tv-outline"></ion-icon>
+          <span>{{ data.totalSeasons }} saisons</span>
+        </div>
+      }
     </div>
 
-    <div class="ajout-section">
-
-      @if (!dejaAjoute) {
-        <p class="ajout-label">Statut</p>
+    <!-- Changement de statut (uniquement si déjà dans la liste) -->
+    @if (dejaAjoute) {
+      <div class="statut-section">
+        <p class="statut-label">Mon statut</p>
         <div class="statut-buttons">
-          <button class="statut-btn statut-vu"       [class.active]="statutChoisi === 'vu'"       (click)="choisirStatut('vu')">Vu</button>
-          <button class="statut-btn statut-en-cours" [class.active]="statutChoisi === 'en_cours'" (click)="choisirStatut('en_cours')">En cours</button>
-          <button class="statut-btn statut-a-voir"   [class.active]="statutChoisi === 'a_voir'"   (click)="choisirStatut('a_voir')">À voir</button>
+          <button class="statut-btn statut-vu"
+                  [class.active]="statutChoisi === 'vu'"
+                  (click)="choisirStatut('vu')">
+            <ion-icon name="checkmark-circle-outline"></ion-icon>
+            Vu
+          </button>
+          <button class="statut-btn statut-en-cours"
+                  [class.active]="statutChoisi === 'en_cours'"
+                  (click)="choisirStatut('en_cours')">
+            <ion-icon name="play-circle-outline"></ion-icon>
+            En cours
+          </button>
+          <button class="statut-btn statut-a-voir"
+                  [class.active]="statutChoisi === 'a_voir'"
+                  (click)="choisirStatut('a_voir')">
+            <ion-icon name="bookmark-outline"></ion-icon>
+            À voir
+          </button>
         </div>
-        <button class="btn-ajouter" (click)="ajouter()">Ajouter à ma liste</button>
-      }
+      </div>
+    }
 
-      @if (dejaAjoute) {
-        <div class="deja-ajoute">
-          <ion-icon name="checkmark-circle"></ion-icon>
-          <span>Déjà dans ta liste</span>
-        </div>
+    <!-- Bouton d'action -->
+    <div class="action-section">
+      @if (!dejaAjoute) {
+        <button class="btn-ajouter" (click)="ajouter()">
+          <ion-icon name="add-outline"></ion-icon>
+          Ajouter à ma liste
+        </button>
+      } @else {
+        <button class="btn-retirer" (click)="supprimer()">
+          <ion-icon name="trash-outline"></ion-icon>
+          Retirer de ma liste
+        </button>
       }
-
     </div>
 
+    <!-- Message de confirmation -->
+    @if (messageConfirmation) {
+      <div class="message-confirmation">
+        <ion-icon name="checkmark-circle-outline"></ion-icon>
+        <span>{{ messageConfirmation }}</span>
+      </div>
+    }
+  }
+
+  @if (!chargement && !data) {
+    <div class="not-found">Contenu introuvable</div>
   }
 
 </div>

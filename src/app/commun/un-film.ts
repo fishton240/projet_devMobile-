@@ -3,7 +3,7 @@ export class UnFilm {
 
   // Les propriétés sont privées : on ne peut pas y accéder directement de l'extérieur
   // Le "!" signifie qu'on promet à TypeScript que la valeur sera assignée plus tard
-  private _id!: number;
+  private _id!: string;
   private _titre!: string;
   private _description!: string;
   private _annee!: string;
@@ -17,9 +17,9 @@ export class UnFilm {
   }
 
   // GETTER : permet de lire la valeur de _id depuis l'extérieur
-  public get id(): number { return this._id; }
+  public get id(): string { return this._id; }
   // SETTER : permet de modifier la valeur de _id depuis l'extérieur
-  public set id(value: number) { this._id = value; }
+  public set id(value: string) { this._id = value; }
 
   public get titre(): string { return this._titre; }
   public set titre(value: string) { this._titre = value; }

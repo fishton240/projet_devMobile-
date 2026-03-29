@@ -1,0 +1,243 @@
+:host {
+  position: absolute;
+  inset: 0;
+  display: flex !important;
+  flex-direction: column;
+  overflow: hidden;
+  pointer-events: auto !important;
+  z-index: 0;
+}
+
+:host.ion-page-hidden {
+  display: none !important;
+  pointer-events: none !important;
+}
+
+.series-content {
+  flex: 1;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  background: var(--ion-background-color, black);
+  padding-bottom: 16px;
+  scrollbar-width: none;
+  &::-webkit-scrollbar { display: none; }
+}
+
+.filtres {
+  display: flex;
+  gap: 8px;
+  padding: 12px 12px 4px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  &::-webkit-scrollbar { display: none; }
+}
+
+.filtre-btn {
+  flex-shrink: 0;
+  padding: 7px 16px;
+  border-radius: 20px;
+  border: 1.5px solid #333;
+  background: #1c1c1c;
+  color: #888;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+
+  &:active { transform: scale(0.96); }
+
+  &.filtre-tous.active     { border-color: white;    color: white;    background: rgba(255,255,255,0.08); }
+  &.filtre-en-cours.active { border-color: orange;   color: orange;   background: rgba(255,165,0,0.1); }
+  &.filtre-a-voir.active   { border-color: #2196F3;  color: #2196F3;  background: rgba(33,150,243,0.12); }
+  &.filtre-vu.active       { border-color: #4CAF50;  color: #4CAF50;  background: rgba(76,175,80,0.12); }
+}
+
+.section {
+  margin-top: 20px;
+  padding: 0 12px;
+
+  .section-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: #aaa;
+    margin: 0 0 12px 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+}
+
+.series-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.serie-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #0f0f0f;
+  border-radius: 12px;
+  padding: 10px;
+  border: 1px solid #1a1a1a;
+
+  &:active {
+    background: #161616;
+  }
+}
+
+.serie-clickable {
+  display: flex;
+  gap: 12px;
+  flex: 1;
+  cursor: pointer;
+  min-width: 0;
+}
+
+.serie-poster {
+  position: relative;
+  width: 70px;
+  height: 100px;
+  flex-shrink: 0;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #111;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .statut-badge {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    font-size: 9px;
+    padding: 2px 6px;
+    border-radius: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+}
+
+.serie-infos {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-width: 0;
+
+  .serie-titre {
+    margin: 0 0 4px;
+    font-size: 15px;
+    font-weight: 600;
+    color: white;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .serie-annee {
+    margin: 0;
+    font-size: 12px;
+    color: #888;
+  }
+
+  .serie-episodes {
+    margin: 2px 0 0;
+    font-size: 11px;
+    color: #666;
+  }
+
+  .serie-episodes-completed {
+    margin: 2px 0 0;
+    font-size: 11px;
+    color: #4CAF50;
+  }
+
+  .serie-progression {
+    margin: 0 0 4px;
+    font-size: 12px;
+    color: orange;
+    font-weight: 500;
+  }
+
+  .progress-bar {
+    margin: 6px 0;
+    height: 3px;
+    background: #2a2a2a;
+    border-radius: 2px;
+    overflow: hidden;
+
+    .progress-fill {
+      height: 100%;
+      background: orange;
+      border-radius: 2px;
+      transition: width 0.3s ease;
+    }
+  }
+
+  .progress-text {
+    font-size: 11px;
+    color: #aaa;
+    font-weight: 500;
+  }
+}
+
+.progress-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: 8px;
+  flex-shrink: 0;
+
+  .progress-btn {
+    background: #2a2a2a;
+    border: none;
+    border-radius: 8px;
+    padding: 8px 10px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.1s ease;
+
+    ion-icon {
+      font-size: 14px;
+      color: orange;
+    }
+
+    &:active {
+      transform: scale(0.92);
+      background: #3a3a3a;
+    }
+  }
+}
+
+.check-icon {
+  font-size: 18px;
+  color: #4CAF50;
+  display: inline-block;
+  margin-top: 6px;
+}
+
+.chargement {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 0;
+  gap: 12px;
+  color: grey;
+
+  p { margin: 0; font-size: 14px; }
+}
+
+.vide {
+  text-align: center;
+  padding: 60px 16px;
+  color: grey;
+  font-size: 14px;
+}

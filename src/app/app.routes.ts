@@ -14,7 +14,7 @@ export const routes: Routes = [
     loadComponent: () => import('./ecrans/series/series-liste/series-liste.page').then( m => m.SeriesListePage)
   },
   {
-    path: 'series-detail',
+    path: 'series-detail/:id',
     loadComponent: () => import('./ecrans/series/series-detail/series-detail.page').then( m => m.SeriesDetailPage)
   },
   {
@@ -28,7 +28,8 @@ export const routes: Routes = [
   {
     path: 'recherche',
     loadComponent: () => import('./ecrans/recherche/recherche.page').then( m => m.RecherchePage)
-  },  {
+  },
+  {
     path: 'recherche-detail/:imdbId/:type',
     loadComponent: () => import('./ecrans/recherche-detail/recherche-detail.page').then( m => m.RechercheDetailPage)
   },

@@ -1,13 +1,128 @@
-<ion-header [translucent]="true">
+<ion-header>
   <ion-toolbar>
-    <ion-title>series-liste</ion-title>
+    <ion-title>Séries</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">series-liste</ion-title>
-    </ion-toolbar>
-  </ion-header>
-</ion-content>
+<div class="series-content" #seriesContent>
+
+  <!-- Filtres -->
+  <div class="filtres">
+    <button class="filtre-btn filtre-tous" [class.active]="filtreActif === 'tous'">Tous</button>
+    <button class="filtre-btn filtre-en-cours" [class.active]="filtreActif === 'en_cours'">En cours</button>
+    <button class="filtre-btn filtre-a-voir" [class.active]="filtreActif === 'a_voir'">À voir</button>
+    <button class="filtre-btn filtre-vu" [class.active]="filtreActif === 'vu'">Vues</button>
+  </div>
+
+  <!-- État de chargement initial -->
+  @if (catalogue.chargementSeries) {
+    <div class="chargement">
+      <ion-spinner name="crescent" color="primary"></ion-spinner>
+      <p>Chargement des séries...</p>
+    </div>
+  }
+
+  <!-- Aucune série dans la liste -->
+  @if (!catalogue.chargementSeries && catalogue.listeSeries.length === 0) {
+    <div class="vide">Aucune série dans votre liste</div>
+  }
+
+  <!-- Affichage des séries -->
+  @if (!catalogue.chargementSeries && catalogue.listeSeries.length > 0) {
+
+    <!-- Section En cours -->
+    @if (seriesEnCours.length > 0) {
+      <div class="section">
+        <h2 class="section-title">En cours de visionnage</h2>
+        <div class="series-list">
+          @for (serie of seriesEnCours; track serie.id) {
+            <div class="serie-item">
+              <div class="serie-clickable" [attr.data-id]="serie.id">
+                <div class="serie-poster">
+                  <img [src]="serie.affiche" [alt]="serie.titre" (error)="onImageError($event)" />
+                  <ion-badge class="statut-badge" [color]="couleurStatut(serie.statut)">
+                    {{ labelStatut(serie.statut) }}
+                  </ion-badge>
+                </div>
+                <div class="serie-infos">
+                  <p class="serie-titre">{{ serie.titre }}</p>
+                  <p class="serie-progression">{{ serie.episodeTexte }}</p>
+                  <div class="progress-bar">
+                    <div class="progress-fill" [style.width.%]="serie.progression"></div>
+                  </div>
+                  <span class="progress-text">{{ serie.episodesVus }}/{{ serie.episodesTotal }} épisodes</span>
+                </div>
+              </div>
+              <div class="progress-actions" (click)="$event.stopPropagation()">
+                <button class="progress-btn btn-prev" [attr.data-id]="serie.id">
+                  <ion-icon name="play-back-outline"></ion-icon>
+                </button>
+                <button class="progress-btn btn-next" [attr.data-id]="serie.id">
+                  <ion-icon name="play-forward-outline"></ion-icon>
+                </button>
+              </div>
+            </div>
+          }
+        </div>
+      </div>
+    }
+
+    <!-- Section À voir -->
+    @if (seriesAVoir.length > 0) {
+      <div class="section">
+        <h2 class="section-title">À voir</h2>
+        <div class="series-list">
+          @for (serie of seriesAVoir; track serie.id) {
+            <div class="serie-item">
+              <div class="serie-clickable" [attr.data-id]="serie.id">
+                <div class="serie-poster">
+                  <img [src]="serie.affiche" [alt]="serie.titre" (error)="onImageError($event)" />
+                  <ion-badge class="statut-badge" [color]="couleurStatut(serie.statut)">
+                    {{ labelStatut(serie.statut) }}
+                  </ion-badge>
+                </div>
+                <div class="serie-infos">
+                  <p class="serie-titre">{{ serie.titre }}</p>
+                  <p class="serie-annee">{{ serie.annee }}</p>
+                  <p class="serie-episodes">{{ serie.saisons }} saisons · {{ serie.episodesTotal }} épisodes</p>
+                </div>
+              </div>
+            </div>
+          }
+        </div>
+      </div>
+    }
+
+    <!-- Section Vues -->
+    @if (seriesVues.length > 0) {
+      <div class="section">
+        <h2 class="section-title">Vues</h2>
+        <div class="series-list">
+          @for (serie of seriesVues; track serie.id) {
+            <div class="serie-item">
+              <div class="serie-clickable" [attr.data-id]="serie.id">
+                <div class="serie-poster">
+                  <img [src]="serie.affiche" [alt]="serie.titre" (error)="onImageError($event)" />
+                  <ion-badge class="statut-badge" [color]="couleurStatut(serie.statut)">
+                    {{ labelStatut(serie.statut) }}
+                  </ion-badge>
+                </div>
+                <div class="serie-infos">
+                  <p class="serie-titre">{{ serie.titre }}</p>
+                  <p class="serie-annee">{{ serie.annee }}</p>
+                  <p class="serie-episodes-completed">{{ serie.episodesTotal }} épisodes · Terminé</p>
+                  <ion-icon name="checkmark-circle-outline" class="check-icon"></ion-icon>
+                </div>
+              </div>
+            </div>
+          }
+        </div>
+      </div>
+    }
+
+    @if (seriesFiltrees.length === 0 && filtreActif !== 'tous') {
+      <div class="vide">Aucune série dans cette catégorie</div>
+    }
+  }
+
+</div>
