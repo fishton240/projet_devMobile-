@@ -1,6 +1,11 @@
 <ion-header>
   <ion-toolbar>
     <ion-title>Films</ion-title>
+    <ion-buttons slot="end">
+      <button class="btn-ajout-header btn-ajout-film">
+        <ion-icon name="add-outline"></ion-icon>
+      </button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
@@ -37,7 +42,7 @@
                   <div class="film-poster">
                     <img [src]="film.affiche" [alt]="film.titre" (error)="onImageError($event)" />
                     <ion-badge class="statut-badge" [color]="couleurStatut(film.statut)">
-                      {{ labelStatut(film.statut) }}
+                      {{ film.statut | statutFilm }}
                     </ion-badge>
                   </div>
                   <div class="film-infos">
@@ -62,7 +67,7 @@
                   <div class="film-poster">
                     <img [src]="film.affiche" [alt]="film.titre" (error)="onImageError($event)" />
                     <ion-badge class="statut-badge" [color]="couleurStatut(film.statut)">
-                      {{ labelStatut(film.statut) }}
+                      {{ film.statut | statutFilm }}
                     </ion-badge>
                   </div>
                   <div class="film-infos">
@@ -87,7 +92,7 @@
                   <div class="film-poster">
                     <img [src]="film.affiche" [alt]="film.titre" (error)="onImageError($event)" />
                     <ion-badge class="statut-badge" [color]="couleurStatut(film.statut)">
-                      {{ labelStatut(film.statut) }}
+                      {{ film.statut | statutFilm }}
                     </ion-badge>
                   </div>
                   <div class="film-infos">
@@ -113,7 +118,7 @@
                 <div class="film-poster">
                   <img [src]="film.affiche" [alt]="film.titre" (error)="onImageError($event)" />
                   <ion-badge class="statut-badge" [color]="couleurStatut(film.statut)">
-                    {{ labelStatut(film.statut) }}
+                    {{ film.statut | statutFilm }}
                   </ion-badge>
                 </div>
                 <div class="film-infos">
@@ -140,3 +145,4 @@
   }
 
 </div>
+

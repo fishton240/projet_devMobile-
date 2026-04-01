@@ -39,6 +39,16 @@ export class AccueilPage implements AfterViewInit, OnDestroy {
       this.validerPseudo();
       return;
     }
+
+    if (elements.some(el => el.classList?.contains('btn-charger-demo'))) {
+      this.chargerDemo();
+      return;
+    }
+
+    if (elements.some(el => el.classList?.contains('btn-tout-vider'))) {
+      this.toutVider();
+      return;
+    }
   };
 
   constructor(public catalogue: CatalogueService) {
@@ -92,6 +102,15 @@ export class AccueilPage implements AfterViewInit, OnDestroy {
       this.pseudo = this.pseudoTemp.trim();
     }
     this.modeEditionPseudo = false;
+  }
+
+  // ── Données de démo ──────────────────────────────────
+  chargerDemo() {
+    this.catalogue.chargerDonneesDemo();
+  }
+
+  toutVider() {
+    this.catalogue.toutVider();
   }
 
   // ── Camera ───────────────────────────────────────────

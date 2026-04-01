@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, UpperCasePipe, SlicePipe } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import {
   IonHeader, IonToolbar, IonTitle,
   IonButtons, IonBackButton,
-  IonButton, IonIcon
+  IonIcon
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import {
@@ -27,7 +27,8 @@ import { UnFilm } from '../../../commun/un-film';
     CommonModule,
     IonHeader, IonToolbar, IonTitle,
     IonButtons, IonBackButton,
-    IonButton, IonIcon
+    IonIcon,
+    UpperCasePipe, SlicePipe
   ]
 })
 export class FilmsDetailPage implements OnInit {

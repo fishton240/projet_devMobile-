@@ -1,0 +1,84 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="annuler()" color="medium">Annuler</ion-button>
+    </ion-buttons>
+    <ion-title>{{ type === 'film' ? 'Ajouter un film' : 'Ajouter une série' }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="ajouter()" [disabled]="!titre.trim()">
+        <strong>Ajouter</strong>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="form-content">
+
+    <!-- Sélection de l'image via Capacitor Camera -->
+    <div class="image-section">
+      <div class="image-preview" (click)="choisirPhoto()">
+        @if (affiche) {
+          <img [src]="affiche" alt="Affiche choisie" />
+        } @else {
+          <div class="image-placeholder">
+            <ion-icon name="image-outline"></ion-icon>
+            <span>Choisir une image</span>
+          </div>
+        }
+      </div>
+    </div>
+
+    <!-- Titre -->
+    <div class="form-group">
+      <label class="form-label">Titre *</label>
+      <input
+        class="form-input"
+        [(ngModel)]="titre"
+        placeholder="Ex : Inception"
+        maxlength="100"
+        autofocus
+      />
+      @if (erreur) {
+        <span class="form-erreur">{{ erreur }}</span>
+      }
+    </div>
+
+    <!-- Année -->
+    <div class="form-group">
+      <label class="form-label">Année</label>
+      <input
+        class="form-input"
+        [(ngModel)]="annee"
+        placeholder="Ex : 2010"
+        maxlength="4"
+        type="text"
+      />
+    </div>
+
+    <!-- Saisons / Épisodes (séries uniquement) -->
+    @if (type === 'serie') {
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Saisons</label>
+          <input class="form-input" [(ngModel)]="saisons" placeholder="Ex : 3" type="text" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Épisodes / saison</label>
+          <input class="form-input" [(ngModel)]="episodesParSaison" placeholder="Ex : 10" type="text" />
+        </div>
+      </div>
+    }
+
+    <!-- Statut -->
+    <div class="form-group">
+      <label class="form-label">Statut</label>
+      <div class="statut-choix">
+        <button class="statut-btn a-voir"   [class.active]="statut === 'a_voir'"   (click)="statut = 'a_voir'">À voir</button>
+        <button class="statut-btn en-cours" [class.active]="statut === 'en_cours'" (click)="statut = 'en_cours'">En cours</button>
+        <button class="statut-btn vu"       [class.active]="statut === 'vu'"       (click)="statut = 'vu'">Vu</button>
+      </div>
+    </div>
+
+  </div>
+</ion-content>

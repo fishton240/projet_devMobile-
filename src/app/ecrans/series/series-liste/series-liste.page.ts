@@ -3,14 +3,15 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import {
-  IonHeader, IonTitle, IonToolbar,
-  IonCard, IonCardContent,
+  IonHeader, IonTitle, IonToolbar, IonButtons,
   IonBadge, IonSpinner, IonIcon
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
-import { playBackOutline, playForwardOutline, checkmarkCircleOutline } from 'ionicons/icons';
+import { playBackOutline, playForwardOutline, checkmarkCircleOutline, addOutline } from 'ionicons/icons';
+import { ModalController } from '@ionic/angular/standalone';
 import { CatalogueService } from '../../../commun/catalogue';
 import { UneSerie } from '../../../commun/une-serie';
+import { ModalAjoutComponent } from '../../../commun/modal-ajout/modal-ajout.component';
 
 @Component({
   selector: 'app-series-liste',
@@ -19,8 +20,7 @@ import { UneSerie } from '../../../commun/une-serie';
   standalone: true,
   imports: [
     CommonModule, FormsModule,
-    IonHeader, IonTitle, IonToolbar,
-    IonCard, IonCardContent,
+    IonHeader, IonTitle, IonToolbar, IonButtons,
     IonBadge, IonSpinner, IonIcon
   ]
 })
@@ -32,7 +32,8 @@ export class SeriesListePage implements AfterViewInit, OnDestroy {
 
   private readonly handleWheel = (e: WheelEvent) => {
     const el = this.seriesContentEl?.nativeElement;
-    if (el) {
+    // N'intercepte le scroll que si cette page est visible (pas masquée par les tabs)
+    if (el && !el.closest('.ion-page-hidden')) {
       el.scrollTop += e.deltaY;
       e.preventDefault();
     }
@@ -40,6 +41,12 @@ export class SeriesListePage implements AfterViewInit, OnDestroy {
 
   private readonly handleClick = (e: MouseEvent) => {
     const elements = document.elementsFromPoint(e.clientX, e.clientY);
+
+    // Bouton d'ajout manuel (uniquement sur la page séries)
+    if (elements.some(el => el.classList?.contains('btn-ajout-serie'))) {
+      this.ouvrirModalAjout();
+      return;
+    }
 
     // Filtres
     if (elements.some(el => el.classList?.contains('filtre-tous'))) { this.filtreActif = 'tous'; return; }
@@ -79,8 +86,22 @@ export class SeriesListePage implements AfterViewInit, OnDestroy {
     }
   };
 
-  constructor(public catalogue: CatalogueService, private router: Router) {
-    addIcons({ playBackOutline, playForwardOutline, checkmarkCircleOutline });
+  constructor(
+    public catalogue: CatalogueService,
+    private router: Router,
+    private modalCtrl: ModalController
+  ) {
+    addIcons({ playBackOutline, playForwardOutline, checkmarkCircleOutline, addOutline });
+  }
+
+  async ouvrirModalAjout() {
+    const modal = await this.modalCtrl.create({
+      component: ModalAjoutComponent,
+      componentProps: { type: 'serie' },
+      breakpoints: [0, 1],
+      initialBreakpoint: 1
+    });
+    await modal.present();
   }
 
   ngAfterViewInit() {

@@ -19,9 +19,9 @@
 
     <!-- Infos principales -->
     <div class="infos">
-      <h1 class="titre">{{ film.titre }}</h1>
+      <h1 class="titre">{{ film.titre | uppercase }}</h1>
       <p class="annee">{{ film.annee }}</p>
-      <p class="description">{{ film.description }}</p>
+      <p class="description">{{ film.description | slice:0:300 }}{{ film.description && film.description.length > 300 ? '…' : '' }}</p>
     </div>
 
     <!-- Changement de statut -->

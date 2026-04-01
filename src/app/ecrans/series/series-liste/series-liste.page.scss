@@ -241,3 +241,16 @@
   color: grey;
   font-size: 14px;
 }
+
+.btn-ajout-header {
+  background: transparent;
+  border: none;
+  color: orange;
+  font-size: 22px;
+  padding: 8px 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+
+  &:active { opacity: 0.6; }
+}

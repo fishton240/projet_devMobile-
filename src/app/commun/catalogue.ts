@@ -19,12 +19,59 @@ export class CatalogueService {
   listeFilms: UnFilm[] = [];
   listeSeries: UneSerie[] = [];
 
-  chargementFilms = true;
-  chargementSeries = true;
+  chargementFilms = false;
+  chargementSeries = false;
 
   constructor(private http: HttpClient) {
+    // L'application démarre vide – utiliser chargerDonneesDemo() pour pré-remplir
+  }
+
+  // Vide toutes les listes
+  toutVider() {
+    this.listeFilms = [];
+    this.listeSeries = [];
+  }
+
+  // Charge les données de démonstration (appelle les initialisations par défaut)
+  chargerDonneesDemo() {
+    this.chargementFilms = true;
+    this.chargementSeries = true;
     this.initialiserFilmsDefaut();
     this.initialiserSeriesDefaut();
+  }
+
+  // Ajoute un film sans API (saisie manuelle)
+  ajouterFilmManuel(titre: string, annee: string, affiche: string, statut: string) {
+    const id = 'manuel_' + Date.now();
+    this.listeFilms.push(new UnFilm({
+      _id: id,
+      _titre: titre,
+      _description: '',
+      _annee: annee || '–',
+      _affiche: affiche,
+      _statut: statut
+    }));
+  }
+
+  // Ajoute une série sans API (saisie manuelle)
+  ajouterSerieManuelle(titre: string, annee: string, affiche: string, statut: string, nbSaisons = 0, nbEpParSaison = 0) {
+    const id = Date.now();
+    const episodesParSaison = nbSaisons > 0 && nbEpParSaison > 0
+      ? Array(nbSaisons).fill(nbEpParSaison)
+      : [];
+    this.listeSeries.push(new UneSerie({
+      _id: id,
+      _titre: titre,
+      _description: '',
+      _annee: annee || '–',
+      _affiche: affiche,
+      _statut: statut,
+      _saisons: nbSaisons,
+      _episodesParSaison: episodesParSaison,
+      _saisonActuelle: 0,
+      _episodeActuel: 0,
+      _episodesTotal: nbSaisons * nbEpParSaison
+    }));
   }
 
   // ========== PARTIE FILMS (OMDb) ==========

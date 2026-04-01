@@ -5,7 +5,7 @@ import { Location } from '@angular/common';
 import {
   IonHeader, IonToolbar, IonTitle,
   IonButtons, IonBackButton,
-  IonButton, IonIcon, IonContent, IonSpinner
+  IonIcon, IonSpinner
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import {
@@ -35,7 +35,7 @@ import { UneSerie } from '../../commun/une-serie';
     CommonModule,
     IonHeader, IonToolbar, IonTitle,
     IonButtons, IonBackButton,
-    IonButton, IonIcon, IonContent, IonSpinner
+    IonIcon, IonSpinner
   ]
 })
 export class RechercheDetailPage implements OnInit {

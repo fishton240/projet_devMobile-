@@ -209,3 +209,41 @@
   .stat-nombre, .stat-label { color: #2196F3; }
   border-color: rgba(33, 150, 243, 0.2);
 }
+
+// ── Actions de session ───────────────────────────────────
+.actions-section {
+  padding: 0 16px 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.btn-charger-demo {
+  width: 100%;
+  padding: 15px;
+  border-radius: 12px;
+  border: none;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  background: #4CAF50;
+  color: #000;
+  transition: opacity 0.15s;
+
+  &:active { opacity: 0.8; }
+}
+
+.btn-tout-vider {
+  width: 100%;
+  padding: 15px;
+  border-radius: 12px;
+  border: none;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  background: #333;
+  color: #ff5555;
+  transition: opacity 0.15s;
+
+  &:active { opacity: 0.8; }
+}

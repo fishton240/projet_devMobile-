@@ -3,14 +3,16 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import {
-  IonHeader, IonTitle, IonToolbar,
-  IonCard, IonCardContent,
+  IonHeader, IonTitle, IonToolbar, IonButtons,
   IonBadge, IonSpinner, IonIcon
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
-import { checkmarkCircleOutline } from 'ionicons/icons';
+import { checkmarkCircleOutline, addOutline } from 'ionicons/icons';
+import { ModalController } from '@ionic/angular/standalone';
 import { CatalogueService } from '../../../commun/catalogue';
 import { UnFilm } from '../../../commun/un-film';
+import { StatutFilmPipe } from '../../../commun/pipes/statut-film.pipe';
+import { ModalAjoutComponent } from '../../../commun/modal-ajout/modal-ajout.component';
 
 @Component({
   selector: 'app-films-liste',
@@ -19,9 +21,9 @@ import { UnFilm } from '../../../commun/un-film';
   standalone: true,
   imports: [
     CommonModule, FormsModule,
-    IonHeader, IonTitle, IonToolbar,
-    IonCard, IonCardContent,
-    IonBadge, IonSpinner, IonIcon
+    IonHeader, IonTitle, IonToolbar, IonButtons,
+    IonBadge, IonSpinner, IonIcon,
+    StatutFilmPipe
   ]
 })
 export class FilmsListePage implements AfterViewInit, OnDestroy {
@@ -33,7 +35,8 @@ export class FilmsListePage implements AfterViewInit, OnDestroy {
   // Scroll : l'overlay d'ion-tabs bloque les wheel events, on intercepte au niveau document
   private readonly handleWheel = (e: WheelEvent) => {
     const el = this.filmsContentEl?.nativeElement;
-    if (el) {
+    // N'intercepte le scroll que si cette page est visible (pas masquée par les tabs)
+    if (el && !el.closest('.ion-page-hidden')) {
       el.scrollTop += e.deltaY;
       e.preventDefault();
     }
@@ -41,6 +44,12 @@ export class FilmsListePage implements AfterViewInit, OnDestroy {
 
   private readonly handleClick = (e: MouseEvent) => {
     const elements = document.elementsFromPoint(e.clientX, e.clientY);
+
+    // Bouton d'ajout manuel (uniquement sur la page films)
+    if (elements.some(el => el.classList?.contains('btn-ajout-film'))) {
+      this.ouvrirModalAjout();
+      return;
+    }
 
     // Filtres
     if (elements.some(el => el.classList?.contains('filtre-tous'))) {
@@ -73,8 +82,22 @@ export class FilmsListePage implements AfterViewInit, OnDestroy {
     }
   };
 
-  constructor(public catalogue: CatalogueService, private router: Router) {
-    addIcons({ checkmarkCircleOutline });
+  constructor(
+    public catalogue: CatalogueService,
+    private router: Router,
+    private modalCtrl: ModalController
+  ) {
+    addIcons({ checkmarkCircleOutline, addOutline });
+  }
+
+  async ouvrirModalAjout() {
+    const modal = await this.modalCtrl.create({
+      component: ModalAjoutComponent,
+      componentProps: { type: 'film' },
+      breakpoints: [0, 1],
+      initialBreakpoint: 1
+    });
+    await modal.present();
   }
 
   ngAfterViewInit() {
@@ -116,15 +139,6 @@ export class FilmsListePage implements AfterViewInit, OnDestroy {
       case 'en_cours': return 'warning';
       case 'a_voir': return 'primary';
       default: return 'primary';
-    }
-  }
-
-  labelStatut(statut: string): string {
-    switch (statut) {
-      case 'vu': return 'Vu';
-      case 'en_cours': return 'En cours';
-      case 'a_voir': return 'À voir';
-      default: return statut;
     }
   }
 
